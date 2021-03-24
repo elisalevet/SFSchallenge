@@ -10,8 +10,17 @@ export class NewBank extends React.Component {
       minPaymentPercentage: '',
       balance: '',
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  async componentDidMount() {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/StrategicFS/Recruitment/master/data.json'
+    );
+    const data = await response.json();
+    this.setState({ data: data });
   }
 
   handleChange(event) {
@@ -23,13 +32,13 @@ export class NewBank extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    // this.setState({
-    //   creditor: this.state.creditorName,
-    //   balance: this.state.balance,
-    // });
+    this.setState({
+      ...this.state,
+      creditor: this.state.creditorName,
+      balance: this.state.balance,
+    });
   }
-  //delete state => []
+
   render() {
     return (
       <div>
