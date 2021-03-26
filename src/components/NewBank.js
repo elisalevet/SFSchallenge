@@ -1,26 +1,18 @@
 import React from 'react';
 
 export class NewBank extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       creditorName: '',
       firstName: '',
       lastName: '',
-      minPaymentPercentage: '',
-      balance: '',
+      minPaymentPercentage: 0,
+      balance: 0,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  async componentDidMount() {
-    const response = await fetch(
-      'https://raw.githubusercontent.com/StrategicFS/Recruitment/master/data.json'
-    );
-    const data = await response.json();
-    this.setState({ data: data });
   }
 
   handleChange(event) {
@@ -32,26 +24,58 @@ export class NewBank extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.addDebt(
+      this.state.creditorName,
+      this.state.firstName,
+      this.state.lastName,
+      this.state.minPaymentPercentage,
+      this.state.balance
+    );
     this.setState({
-      ...this.state,
-      creditor: this.state.creditorName,
-      balance: this.state.balance,
+      creditorName: '',
+      firstName: '',
+      lastName: '',
+      minPaymentPercentage: 0,
+      balance: 0,
     });
   }
 
   render() {
     return (
       <div>
-        <form id='bankform' className='newField' onSubmit={this.handleSubmit}>
-          <label htmlFor='creditorName'>Creditor name</label>
+        <form id='bankform' onSubmit={this.handleSubmit}>
+          <label htmlFor='creditorName'>Creditor Name</label>
           <input
             type='text'
             name='creditorName'
             value={this.state.creditorName}
             onChange={this.handleChange}
           />
-
-          <label htmlFor='balance'>balance</label>
+          <br />
+          <label htmlFor='firstName'>First Name </label>
+          <input
+            type='text'
+            name='firstName'
+            value={this.state.firstName}
+            onChange={this.handleChange}
+          />
+          <br />
+          <label htmlFor='lastName'>Last Name{'    '}</label>
+          <input
+            type='text'
+            name='lastName'
+            value={this.state.lastName}
+            onChange={this.handleChange}
+          />
+          <br /> <label htmlFor='minPaymentPercentage'>Min Payment%</label>
+          <input
+            type='number'
+            name='minPaymentPercentage'
+            value={this.state.minPaymentPercentage}
+            onChange={this.handleChange}
+          />
+          <br />
+          <label htmlFor='balance'>Balance</label>
           <input
             type='number'
             name='balance'
